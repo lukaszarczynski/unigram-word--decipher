@@ -23,7 +23,7 @@ def select_decryptions_matching_reliable_chars(encrypted_phrase, possible_decryp
 
     while certain_chars[0] != previous_certain_chars[0]:
         previous_certain_chars = deepcopy(certain_chars)
-        for encrypted_word in encrypted_phrase.split(" "):
+        for encrypted_word in possible_decryptions.keys():
             certain_chars.append(reliable_mapping(decryptions[encrypted_word]))
 
         while len(certain_chars) > 1:

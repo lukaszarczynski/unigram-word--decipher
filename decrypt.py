@@ -11,7 +11,9 @@ def find_pattern_equivalent_words(encrypted_word, unigrams) -> List[Dict[str, st
     encrypted_pattern_equivalence = pattern_equivalence(encrypted_word)
     for word in unigrams[len(encrypted_word)].keys():
         if encrypted_pattern_equivalence(word):
-            possible_word_decryptions.append(dict(zip(encrypted_word, remove_polish_characters(word))))
+            possible_decryption = dict(zip(encrypted_word, remove_polish_characters(word)))
+            if possible_decryption not in possible_word_decryptions:
+                possible_word_decryptions.append(dict(zip(encrypted_word, remove_polish_characters(word))))
     return possible_word_decryptions
 
 
@@ -22,7 +24,9 @@ def create_pattern_equivalents_for_words_in_phrase(encrypted_phrase,
     possible_decryptions = defaultdict(lambda: [])
 
     for encrypted_word in encrypted_phrase.split(" "):
-        possible_decryptions[encrypted_word] = find_pattern_equivalent_words(encrypted_word, unigrams)
+        pattern_equivalent_words = find_pattern_equivalent_words(encrypted_word, unigrams)
+        if len(pattern_equivalent_words) > 0:
+            possible_decryptions[encrypted_word] = pattern_equivalent_words
     return possible_decryptions
 
 
